@@ -1,5 +1,11 @@
 :root {
-  --animation-transform: transform 1000ms;
+  --animation-works-overlay: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --transition-duration: 250ms;
+  --transition-duration-modal: 950ms;
+  --transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
   --primary-bg-color: #ffffff;
   --footer-bg-color: #2f303a;
   --footer-logo-accent-color: #ffffff;
@@ -19,7 +25,7 @@
   --signature-works-border-color: #eeeeee;
   --icon-color: #afb1b8;
   --backdrop-bg-color: rgba(0, 0, 0, 0.2);
-  --overlay-portfolio-bg-color: rgba(33, 150, 243, 0.9);
+  --works-overlay-bg-color: rgba(33, 150, 243, 0.9);
 }
 
 html {
@@ -111,33 +117,21 @@ button {
 }
 
 .page-header {
-  overflow: auto;
   position: fixed;
-  z-index: 1;
+  z-index: 10;
 
   width: 100%;
   top: 0;
   left: 0;
 
   background-color: var(--primary-bg-color);
+  border-bottom: 1px solid var(--header-border-color);
 }
 
 .page-header .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.page-header::after {
-  content: "";
-
-  position: absolute;
-  bottom: 0px;
-
-  width: 100%;
-  height: 1px;
-
-  background-color: var(--header-border-color);
 }
 
 .page-header nav {
@@ -163,7 +157,7 @@ button {
   color: var(--accent-black-color);
 }
 
-.site-nav {
+.page-header .site-nav {
   display: flex;
 }
 
@@ -182,8 +176,8 @@ button {
   letter-spacing: 0.02em;
 
   transition-property: color;
-  transition-duration: 250ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing-function);
 }
 
 .site-nav .link:hover,
@@ -203,14 +197,13 @@ button {
   content: "";
 
   position: absolute;
-  z-index: 1;
 
   box-sizing: border-box;
 
   display: block;
   width: 100%;
   height: 4px;
-  bottom: 0px;
+  bottom: -1px;
 
   border-radius: 2px;
   background-color: var(--accent-blue-color);
@@ -264,17 +257,17 @@ button {
   font-style: normal;
 
   transition-property: color;
-  transition-duration: 250ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.address-links .item + .item {
-  margin-top: 9px;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing-function);
 }
 
 .link.contacts:hover,
 .link.contacts:focus {
   color: var(--accent-blue-color);
+}
+
+.address-links .item + .item {
+  margin-top: 9px;
 }
 
 .link.googlmaps {
@@ -297,7 +290,11 @@ button {
 }
 
 .footer-join-container .link {
-  background: var(--footer-social-link-color);
+  background-color: var(--footer-social-link-color);
+
+  transition-property: background-color;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing-function);
 }
 
 .footer-join-container .link:hover,
@@ -328,7 +325,7 @@ button {
 }
 
 .hero-backdrop {
-  z-index: 2;
+  z-index: 11;
   position: fixed;
   top: 0;
   left: 0;
@@ -337,12 +334,9 @@ button {
 
   background-color: var(--backdrop-bg-color);
 
-  /* opacity: 1;
-  visibility: visible; */
-
   transition-property: background-color, opacity, visibility;
-  transition-duration: 1250ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: var(--transition-duration-modal);
+  transition-timing-function: var(--transition-timing-function);
 }
 
 .hero-backdrop.is-hidden {
@@ -356,9 +350,6 @@ button {
   top: 50%;
   left: 50%;
 
-  transform: translate(-50%, -50%) scale(1) rotate(0);
-  transition: 1000ms transform;
-
   min-width: 528px;
   min-height: 581px;
 
@@ -366,9 +357,15 @@ button {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
     0px 2px 1px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+
+  transform: translate(-50%, -50%) scale(1) rotate(0);
+  transition-property: transform, background-color;
+  transition-duration: var(--transition-duration-modal);
+  transition-timing-function: var(--transition-timing-function);
 }
 
 .hero-backdrop.is-hidden .hero-modal {
+  background-color: transparent;
   transform: translate(-50%, -50%) scale(0.4) rotate(360deg);
 }
 
@@ -484,7 +481,6 @@ button {
 .specialization .title {
   position: absolute;
   bottom: 0;
-  z-index: 0;
 
   width: 100%;
   height: 70px;
@@ -562,6 +558,10 @@ button {
   height: 44px;
 
   border-radius: 50%;
+
+  transition-property: background-color, color;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing-function);
 }
 
 .team .icon {
@@ -572,10 +572,6 @@ button {
 .team .social-link .link:focus {
   background-color: var(--accent-blue-color);
   color: var(--primary-bg-color);
-}
-
-.team .icon {
-  fill: var(--icon-color);
 }
 
 .team .icon {
@@ -601,6 +597,10 @@ button {
 
   border: 1px solid var(--icon-color);
   border-radius: 4px;
+
+  transition-property: color, border;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing-function);
 }
 
 .clients .link:hover,
@@ -638,11 +638,15 @@ button {
   line-height: 1.62;
   text-align: center;
   letter-spacing: 0.03em;
+
+  transition-property: background-color, color, box-shadow;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing-function);
 }
 
 .portfolio-nav-button:hover,
 .portfolio-nav-button:focus {
-  background: var(--accent-blue-color);
+  background-color: var(--accent-blue-color);
   color: var(--button-active-text-color);
   box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.08),
     0px 2px 2px rgba(0, 0, 0, 0.12);
@@ -661,6 +665,10 @@ button {
 
 .works .item {
   flex-basis: calc((100% - 60px) / 3);
+
+  transition-property: box-shadow;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing-function);
 }
 
 .works .item:hover,
@@ -699,27 +707,28 @@ button {
   position: relative;
   overflow: hidden;
 }
-.works-hover-overlay {
+.works-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   transform: translateY(100%);
+  opacity: 0;
 
   padding: 63px 24px;
   width: 100%;
   height: 100%;
-  /* opacity: 0; */
 
   font-size: 18px;
   line-height: calc(28 / 18);
 
   color: var(--primary-bg-color);
-  background-color: var(--overlay-portfolio-bg-color);
+  background-color: var(--works-overlay-bg-color);
 
-  transition: var(--animation-transform);
+  transition: var(--animation-works-overlay);
 }
 
-.works .item:hover .works-hover-overlay,
-.works .item:focus .works-hover-overlay {
+.works .item:hover .works-overlay,
+.works .item:focus .works-overlay {
   transform: translateY(0);
+  opacity: 1;
 }
