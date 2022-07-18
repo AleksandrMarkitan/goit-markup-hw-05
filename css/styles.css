@@ -1,4 +1,5 @@
 :root {
+  --animation-transform: transform 1000ms;
   --primary-bg-color: #ffffff;
   --footer-bg-color: #2f303a;
   --footer-logo-accent-color: #ffffff;
@@ -17,6 +18,8 @@
   --header-border-color: #ececec;
   --signature-works-border-color: #eeeeee;
   --icon-color: #afb1b8;
+  --backdrop-bg-color: rgba(0, 0, 0, 0.2);
+  --overlay-portfolio-bg-color: rgba(33, 150, 243, 0.9);
 }
 
 html {
@@ -108,19 +111,33 @@ button {
 }
 
 .page-header {
+  overflow: auto;
   position: fixed;
+  z-index: 1;
+
   width: 100%;
   top: 0;
   left: 0;
 
   background-color: var(--primary-bg-color);
-  border-bottom: 1px solid var(--header-border-color);
 }
 
 .page-header .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.page-header::after {
+  content: "";
+
+  position: absolute;
+  bottom: 0px;
+
+  width: 100%;
+  height: 1px;
+
+  background-color: var(--header-border-color);
 }
 
 .page-header nav {
@@ -163,10 +180,16 @@ button {
   font-weight: 500;
   line-height: 1.14;
   letter-spacing: 0.02em;
+
+  transition-property: color;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .site-nav .link:hover,
-.site-nav .link:focus {
+.site-nav .link:focus,
+.auth-nav .link:hover,
+.auth-nav .link:focus {
   color: var(--accent-blue-color);
 }
 
@@ -180,11 +203,14 @@ button {
   content: "";
 
   position: absolute;
+  z-index: 1;
+
+  box-sizing: border-box;
 
   display: block;
   width: 100%;
   height: 4px;
-  bottom: -1px;
+  bottom: 0px;
 
   border-radius: 2px;
   background-color: var(--accent-blue-color);
@@ -207,11 +233,6 @@ button {
 .auth-nav .icon-envelope,
 .auth-nav .icon-smartphone {
   fill: currentColor;
-}
-
-.auth-nav .link:hover,
-.auth-nav .link:focus {
-  color: var(--accent-blue-color);
 }
 
 .page-footer {
@@ -241,6 +262,10 @@ button {
 .address-links .link {
   color: var(--address-links-color);
   font-style: normal;
+
+  transition-property: color;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .address-links .item + .item {
@@ -302,6 +327,66 @@ button {
   background-position: center;
 }
 
+.hero-backdrop {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--backdrop-bg-color);
+
+  /* opacity: 1;
+  visibility: visible; */
+
+  transition-property: background-color, opacity, visibility;
+  transition-duration: 1250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-backdrop.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hero-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%) scale(1) rotate(0);
+  transition: 1000ms transform;
+
+  min-width: 528px;
+  min-height: 581px;
+
+  background-color: var(--primary-bg-color);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.hero-backdrop.is-hidden .hero-modal {
+  transform: translate(-50%, -50%) scale(0.4) rotate(360deg);
+}
+
+.hero-data-close-modal {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+
+  background-color: var(--primary-bg-color);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+}
 .hero-title {
   width: 696px;
   margin: 0px auto 30px;
@@ -399,6 +484,7 @@ button {
 .specialization .title {
   position: absolute;
   bottom: 0;
+  z-index: 0;
 
   width: 100%;
   height: 70px;
@@ -607,4 +693,33 @@ button {
   font-weight: 400;
   font-size: 16px;
   line-height: 1.88;
+}
+
+.works-thumb {
+  position: relative;
+  overflow: hidden;
+}
+.works-hover-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateY(100%);
+
+  padding: 63px 24px;
+  width: 100%;
+  height: 100%;
+  /* opacity: 0; */
+
+  font-size: 18px;
+  line-height: calc(28 / 18);
+
+  color: var(--primary-bg-color);
+  background-color: var(--overlay-portfolio-bg-color);
+
+  transition: var(--animation-transform);
+}
+
+.works .item:hover .works-hover-overlay,
+.works .item:focus .works-hover-overlay {
+  transform: translateY(0);
 }
