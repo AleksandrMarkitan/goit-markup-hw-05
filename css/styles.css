@@ -384,7 +384,7 @@ button {
   border-radius: 50%;
 
   transition-property: color;
-  transition-duration: var(--transition-duration-modal);
+  transition-duration: var(--transition-duration);
   transition-timing-function: var(--transition-timing-function);
 }
 
