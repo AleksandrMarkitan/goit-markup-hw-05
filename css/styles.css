@@ -382,6 +382,19 @@ button {
   background-color: var(--primary-bg-color);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
+
+  transition-property: color;
+  transition-duration: var(--transition-duration-modal);
+  transition-timing-function: var(--transition-timing-function);
+}
+
+.hero-data-close-modal:hover,
+.hero-data-close-modal:focus {
+  color: var(--accent-blue-color);
+}
+
+.hero-data-close-modal-icon {
+  fill: currentColor;
 }
 .hero-title {
   width: 696px;
